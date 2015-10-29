@@ -203,8 +203,12 @@ def add_auto_route_for_fs(ip_list):
     local_path_os_config_control = os.path.join(get_patches_tool_path(), PatchFilePath.PATH_LOCAL_OS_CONFIG_CONTROL)
 
     cmd_to_unix_add_route_sh = 'dos2unix %s' % ScriptFilePath.PATH_REMOTE_ADD_ROUTER_SH
+    cmd_chown_add_router_to_cps = 'chown cps:cps %s' % ScriptFilePath.PATH_REMOTE_ADD_ROUTER_SH
+    cmd_chmod_755_add_router = 'chmod 755 %s' % ScriptFilePath.PATH_REMOTE_ADD_ROUTER_SH
+
     cmd_chown_os_config_control_to_cps = 'chown cps:cps %s' % PatchFilePath.PATH_REMOTE_OS_CONFIG_CONTROL
     cmd_chmod_755_control = 'chmod 755 %s' % PatchFilePath.PATH_REMOTE_OS_CONFIG_CONTROL
+
     # TODO
     cmd_restart_cps = ''
     for ip in ip_list:
@@ -216,6 +220,8 @@ def add_auto_route_for_fs(ip_list):
                 ssh.run(cmd_to_unix_add_route_sh)
                 ssh.run(cmd_chown_os_config_control_to_cps)
                 ssh.run(cmd_chmod_755_control)
+                ssh.run(cmd_chown_add_router_to_cps)
+                ssh.run(cmd_chmod_755_add_router)
             except Exception, e:
                 log.error('Exception occur when add auto route for fs, exception: %s' % traceback.format_exc())
             finally:
